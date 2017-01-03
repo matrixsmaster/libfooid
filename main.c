@@ -17,7 +17,7 @@ int main(int argc, char ** argv)
     SF_INFO * sfinfo = malloc(sizeof(SF_INFO));
     SNDFILE * file = sf_open(argv[1], SFM_READ, sfinfo);
 
-    //print_file_info(sfinfo);
+    print_file_info(sfinfo);
 
     t_fooid * fooid = fp_init(sfinfo->samplerate, sfinfo->channels);
     //puts("fooid");
