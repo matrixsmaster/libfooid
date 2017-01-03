@@ -25,7 +25,8 @@
 #include "fooid.h"
 
 #include "spectrum.h"
-#include "libresample/resample.h"
+//#include "libresample/resample.h"
+#include <libresample.h>
 
 /* The original code seemed to assume that min() was a part of the standard library.
    Since it isn't, I've added a simple implementation. */

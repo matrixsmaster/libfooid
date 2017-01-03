@@ -14,20 +14,24 @@ int main(int argc, char ** argv)
         return 0;
     }
 
-    SF_INFO * sfinfo = malloc(sizeof(*sfinfo));
+    SF_INFO * sfinfo = malloc(sizeof(SF_INFO));
     SNDFILE * file = sf_open(argv[1], SFM_READ, sfinfo);
 
-    print_file_info(sfinfo);
+    //print_file_info(sfinfo);
 
     t_fooid * fooid = fp_init(sfinfo->samplerate, sfinfo->channels);
+    //puts("fooid");
 
     short * data = malloc(sizeof(short) * sfinfo->channels * sfinfo->samplerate);
+    //printf("data malloc: %lu (%lu)\n",sizeof(short) * sfinfo->channels * sfinfo->samplerate, sizeof(short));
 
     int centiseconds = 0;
 
     while (1)
     {
         sf_count_t items_read = sf_read_short(file, data, sfinfo->channels * sfinfo->samplerate);
+        //printf("%lu read; ",items_read);
+        //fflush(stdout);
 
         if (items_read == 0)
         {
@@ -35,8 +39,12 @@ int main(int argc, char ** argv)
         }
 
         centiseconds += 100 * sfinfo->channels * sfinfo->samplerate / items_read;
+        //printf("%i csesc: ",centiseconds);
+        //fflush(stdout);
 
-        int result = fp_feed_short(fooid, data, items_read);
+        int result = fp_feed_short(fooid, data, items_read / sfinfo->channels);
+        //printf("%i\n",result);
+        //fflush(stdout);
 
         if (result < 0)
         {
